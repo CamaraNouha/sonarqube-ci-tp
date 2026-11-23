@@ -1,0 +1,14 @@
+# Environnement virtuel Python
+venv/
+.venv/
+
+# Python
+__pycache__/
+*.pyc
+
+# SonarQube
+.scannerwork/
+
+# IDE
+.vscode/
+.idea/
