@@ -1,9 +1,10 @@
+
 name: CI - Tests et SonarQube
 
 on:
   push:
     branches: [main]
-  
+
   pull_request:
     branches: [main]
     types: [opened, synchronize, reopened]
@@ -13,17 +14,17 @@ permissions:
 
 jobs:
   quality-check:
-    name: Tests et analuse qualite
+    name: Tests et analyse qualité
     runs-on: ubuntu-latest
 
     steps:
       # 1. Récupération du code
       - name: Checkout repository
-        users: actions/checkout@v6
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
-      
-      #2 installation des python
+
+      # 2. Installation de Python
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
@@ -39,14 +40,13 @@ jobs:
       - name: Run tests with coverage
         run: |
           python -m pytest -v \
-          --cov=src \
-          --cov-branch \
-          --cov-report=term-missing \
-          --cov-report=xml:coverage.xml
+            --cov=src \
+            --cov-branch \
+            --cov-report=term-missing \
+            --cov-report=xml:coverage.xml
 
       # 5. Analyse SonarQube
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v8.3.0
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
